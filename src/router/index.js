@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import ProductList from '../components/ProductList.vue'
-import ProductItem from '../components/ProductItem.vue'
+import ProductList from '../pages/ProductList.vue'
+import ProductItem from '../pages/ProductItem.vue'
 
 Vue.use(VueRouter)
 
