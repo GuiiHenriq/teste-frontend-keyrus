@@ -1,5 +1,14 @@
 <template>
   <main class="products">
+    <section class="loading" v-show="showLoad">
+      <div class="loader">Loading...</div>
+    </section>
+    
+    <nav class="nav">
+      <router-link :to="{ path: '/' }" title="Ir para Página Inicial">Home</router-link> /
+      <router-link :to="{ path: currentHref }" title="Ir para Página do Produto">Produto</router-link>
+    </nav>
+
     <ul class="products--box" v-if="dataProduct">
       <li class="products--box__item">
         <img
@@ -39,23 +48,25 @@ export default {
   name: "ProductItem",
   data() {
     return {
+      showLoad: false,
       dataProduct: null,
+      currentHref: ''
     };
   },
   props: ["id"],
   methods: {
     getProducts() {
-      console.log(this.id);
-      fetch(
-        `http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/${this.id}`
-      )
+      this.showLoad = true;
+
+      fetch(`http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/${this.id}`)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
           this.dataProduct = data;
-          console.log(this.dataProduct);
-        });
+        })
+        .catch((error) => console.log(error) )
+        .finally(() => this.showLoad = false);
     },
     addToCart() {
       alert("Produto Adicionado ao Carrinho");
@@ -63,11 +74,21 @@ export default {
   },
   created() {
     this.getProducts();
+
+    this.currentHref = window.location.pathname;
   },
 };
 </script>
 
 <style scoped>
+.nav {
+  margin-bottom: 20px;
+}
+
+.nav a {
+  text-decoration: underline;
+}
+
 .products--box__item {
   text-align: center;
   background: #ffffff;
@@ -164,6 +185,9 @@ export default {
 
 /* =========== RESPONSIVE =========== */
 @media only screen and (max-width: 768px) {
+  .nav {
+    margin: 0 10px 10px 10px;
+  }
   .products--box__item {
     margin: 0 10px;
     background: none;

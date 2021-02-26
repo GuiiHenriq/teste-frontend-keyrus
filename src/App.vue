@@ -163,6 +163,9 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+.slick-prev:before, .slick-next:before {
+  color: #e80 !important;
+}
 
 /* =========== STYLE GLOBAL =========== */
 body {

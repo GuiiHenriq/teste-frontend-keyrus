@@ -27,8 +27,6 @@
       </li>
     </ul>
 
-    <!-- <img v-for="item in items" :key="item.img" :src="item.img" /> -->
-
     <ul class="products--box">
       <VueSlickCarousel v-bind="settings" v-if="dataProduct">
         <li
@@ -65,6 +63,7 @@
 </template>
 
 <script>
+// Imports Slick
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
@@ -80,21 +79,6 @@ export default {
       dataProduct: null,
       productMin: null,
       settings: {
-        /*centerMode: true,
-        centerPadding: "20px",
-        focusOnSelect: true,
-        infinite: true,
-        slidesToShow: 3,
-        speed: 500*/
-
-        /*dots: true,
-        infinite: true,
-        initialSlide: 2,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        swipeToSlide: true*/
-
         centerMode: true,
         centerPadding: "20px",
         focusOnSelect: true,
@@ -102,6 +86,7 @@ export default {
         slidesToShow: 3,
         speed: 500,
         dots: true,
+        arrows: true,
         responsive: [
           {
             breakpoint: 1024,
@@ -132,25 +117,19 @@ export default {
     };
   },
   methods: {
-    getProducts: async function () {
+    getProducts() {
       this.showLoad = true;
 
-      try {
-        fetch(
-          "http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/products",
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            this.dataProduct = data.products;
-            this.productMinValue();
-          });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.showLoad = false;
-      }
+      fetch("http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/products")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.dataProduct = data.products;
+          this.productMinValue();
+        })
+        .catch((error) => console.log(error) )
+        .finally(() => this.showLoad = false);
     },
     productMinValue() {
       const arrProducts = new Array();
@@ -164,7 +143,7 @@ export default {
       });
 
       for (let i = 0; i < arrProducts.length; i++) {
-        if (arrProducts[i].price.value === Math.min(...arrValues)) {
+        if (arrProducts[i].price.value == Math.min(...arrValues)) {
           this.productMin = arrProducts[i];
         }
       }
@@ -183,7 +162,7 @@ export default {
 .products--banner {
   width: 100%;
   height: 300px;
-  background-image: url("../assets/teste.jpg");
+  background-image: url("../assets/bg-banner.jpg");
   background-position: center;
   background-size: cover;
   display: flex;
