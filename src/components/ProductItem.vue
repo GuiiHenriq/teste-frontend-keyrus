@@ -47,11 +47,7 @@ export default {
     getProducts() {
       console.log(this.id);
       fetch(
-        `http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/${this.id}`, {
-            headers: {
-              "Content-Security-Policy": "upgrade-insecure-requests"
-            }
-          }
+        `http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/${this.id}`
       )
         .then((response) => {
           return response.json();
