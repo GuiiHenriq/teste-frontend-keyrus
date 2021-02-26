@@ -137,7 +137,11 @@ export default {
 
       try {
         fetch(
-          "http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/products"
+          "http://challenge-front-end-keyrus.us-east-2.elasticbeanstalk.com/retrieve-product/products", {
+            headers: {
+              "Content-Security-Policy": "upgrade-insecure-requests"
+            }
+          }
         )
           .then((response) => {
             return response.json();
